@@ -300,5 +300,42 @@ spells = [
   }
 ]
 
+spellbooks = [
+  {
+    name: "Necronomicon",
+    character_class: "Wizard",
+    character_level: 10
+  },
+  {
+    name: "The Greater Key of Solomon",
+    character_class: "Sorcerer",
+    character_level: 5
+  }
+]
+
+
 spells.each { |spell| Spell.create!(spell) }
 puts "#{Spell.count} spells created!"
+spellbooks.each { |spellbook| Spellbook.create!(spellbook)}
+puts "#{Spellbook.count} spellbooks created!"
+
+spellbook_entries = [
+  {
+    spellbook_id: Spellbook.first.id,
+    spell_id: Spell.find_by!(name: "Animate Dead").id,
+    prepared: true
+  },
+  {
+    spellbook_id: Spellbook.last.id,
+    spell_id: Spell.find_by!(name: "Web").id,
+    prepared: true
+  },
+  {
+    spellbook_id: Spellbook.last.id,
+    spell_id: Spell.find_by!(name: "Misty Step").id,
+    prepared: true
+  }
+]
+
+spellbook_entries.each { |entry| SpellbookEntry.create!(entry) }
+puts "#{SpellbookEntry.count} spellbook entries created!"

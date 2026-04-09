@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_09_213626) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_09_232112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "spellbook_enteries", force: :cascade do |t|
+    t.bigint "spellbook_id", null: false
+    t.bigint "spell_id", null: false
+    t.boolean "prepared"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spell_id"], name: "index_spellbook_enteries_on_spell_id"
+    t.index ["spellbook_id"], name: "index_spellbook_enteries_on_spellbook_id"
+  end
+
+  create_table "spellbooks", force: :cascade do |t|
+    t.string "name"
+    t.string "character_class"
+    t.integer "character_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "spells", force: :cascade do |t|
     t.string "name", null: false
@@ -32,5 +50,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_09_213626) do
     t.index ["level"], name: "index_spells_on_level"
     t.index ["name"], name: "index_spells_on_name", unique: true
     t.index ["school"], name: "index_spells_on_school"
+    t.check_constraint "level >= 0 AND level <= 9", name: "spell_level_range"
   end
+
+  add_foreign_key "spellbook_enteries", "spellbooks"
+  add_foreign_key "spellbook_enteries", "spells"
 end
