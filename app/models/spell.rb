@@ -1,4 +1,5 @@
 class Spell < ApplicationRecord
+    belongs_to :spell_school
     #Verbal (V - chanting), Somatic (S - gestures), and Material (M - physical objects)
 
     validates :name, presence: true, uniqueness: true

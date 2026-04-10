@@ -2,7 +2,7 @@ module Api
   module V1
     class SpellsController < ApplicationController
       def index
-        spells = Spell.all
+        spells = Spell.includes(:spell_school)
 
         spells = spells.by_level(params[:level]) if params[:level]
         spells = spells.by_school(params[:school]) if params[:school]

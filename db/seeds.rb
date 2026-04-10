@@ -1,8 +1,59 @@
+Spellbook.destroy_all
+Spell.destroy_all
+SpellSchool.destroy_all
+
+
+spell_schools = [
+  {
+    name: "Evocation",
+    description: "The school of raw magical power, focused on channeling energy to create effects such as fire, lightning, cold, and force. Evokers are the classic battle mages, bending the elements to their will.",
+    color: "#E24B4A"
+  },
+  {
+    name: "Abjuration",
+    description: "The school of protection and warding. Abjurers specialize in spells that block, banish, and shield, creating magical barriers and dispelling the magic of others.",
+    color: "#378ADD"
+  },
+  {
+    name: "Divination",
+    description: "The school of sight and knowledge. Diviners peer through time and space to uncover secrets, predict the future, and reveal that which is hidden from ordinary perception.",
+    color: "#FAC775"
+  },
+  {
+    name: "Transmutation",
+    description: "The school of transformation. Transmuters alter the physical properties of objects, creatures, and the world itself, reshaping matter and energy at will.",
+    color: "#639922"
+  },
+  {
+    name: "Illusion",
+    description: "The school of deception and trickery. Illusionists weave phantasms of sight, sound, smell, and sensation to confound enemies and delight allies.",
+    color: "#7F77DD"
+  },
+  {
+    name: "Enchantment",
+    description: "The school of the mind. Enchanters influence and control the thoughts, emotions, and behavior of others, bending wills with subtle or overwhelming magical force.",
+    color: "#D4537E"
+  },
+  {
+    name: "Conjuration",
+    description: "The school of summoning and teleportation. Conjurers call creatures and objects from elsewhere, create matter from nothing, and teleport themselves and others across vast distances.",
+    color: "#1D9E75"
+  },
+  {
+    name: "Necromancy",
+    description: "The school of life, death, and undeath. Necromancers manipulate the forces of mortality, draining life energy from the living and animating the remains of the dead.",
+    color: "#888780"
+  }
+]
+spell_schools.each { |spell_school| SpellSchool.create!(spell_school)}
+puts "#{SpellSchool.count} spell schools created!"
+
 spells = [
   {
     name: "Fireball",
     level: 3,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "150 feet",
     duration: "Instantaneous",
@@ -16,6 +67,7 @@ spells = [
     name: "Magic Missile",
     level: 1,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "120 feet",
     duration: "Instantaneous",
@@ -29,6 +81,7 @@ spells = [
     name: "Cure Wounds",
     level: 1,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "Touch",
     duration: "Instantaneous",
@@ -42,6 +95,7 @@ spells = [
     name: "Shield",
     level: 1,
     school: "Abjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Abjuration").id,
     casting_time: "1 reaction",
     range: "Self",
     duration: "1 round",
@@ -55,6 +109,7 @@ spells = [
     name: "Detect Magic",
     level: 1,
     school: "Divination",
+    spell_school_id: SpellSchool.find_by!(name: "Divination").id,
     casting_time: "1 action",
     range: "Self",
     duration: "10 minutes",
@@ -68,6 +123,7 @@ spells = [
     name: "Counterspell",
     level: 3,
     school: "Abjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Abjuration").id,
     casting_time: "1 reaction",
     range: "60 feet",
     duration: "Instantaneous",
@@ -81,6 +137,7 @@ spells = [
     name: "Polymorph",
     level: 4,
     school: "Transmutation",
+    spell_school_id: SpellSchool.find_by!(name: "Transmutation").id,
     casting_time: "1 action",
     range: "60 feet",
     duration: "1 hour",
@@ -94,6 +151,7 @@ spells = [
     name: "Fly",
     level: 3,
     school: "Transmutation",
+    spell_school_id: SpellSchool.find_by!(name: "Transmutation").id,
     casting_time: "1 action",
     range: "Touch",
     duration: "10 minutes",
@@ -107,6 +165,7 @@ spells = [
     name: "Invisibility",
     level: 2,
     school: "Illusion",
+    spell_school_id: SpellSchool.find_by!(name: "Illusion").id,
     casting_time: "1 action",
     range: "Touch",
     duration: "1 hour",
@@ -120,6 +179,7 @@ spells = [
     name: "Hold Person",
     level: 2,
     school: "Enchantment",
+    spell_school_id: SpellSchool.find_by!(name: "Enchantment").id,
     casting_time: "1 action",
     range: "60 feet",
     duration: "1 minute",
@@ -133,6 +193,7 @@ spells = [
     name: "Lightning Bolt",
     level: 3,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "Self (100-foot line)",
     duration: "Instantaneous",
@@ -146,6 +207,7 @@ spells = [
     name: "Misty Step",
     level: 2,
     school: "Conjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Conjuration").id,
     casting_time: "1 bonus action",
     range: "Self",
     duration: "Instantaneous",
@@ -159,6 +221,7 @@ spells = [
     name: "Charm Person",
     level: 1,
     school: "Enchantment",
+    spell_school_id: SpellSchool.find_by!(name: "Enchantment").id,
     casting_time: "1 action",
     range: "30 feet",
     duration: "1 hour",
@@ -172,6 +235,7 @@ spells = [
     name: "Animate Dead",
     level: 3,
     school: "Necromancy",
+    spell_school_id: SpellSchool.find_by!(name: "Necromancy").id,
     casting_time: "1 minute",
     range: "10 feet",
     duration: "Instantaneous",
@@ -185,6 +249,7 @@ spells = [
     name: "Wish",
     level: 9,
     school: "Conjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Conjuration").id,
     casting_time: "1 action",
     range: "Self",
     duration: "Instantaneous",
@@ -198,6 +263,7 @@ spells = [
     name: "Mage Armor",
     level: 1,
     school: "Abjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Abjuration").id,
     casting_time: "1 action",
     range: "Touch",
     duration: "8 hours",
@@ -211,6 +277,7 @@ spells = [
     name: "Healing Word",
     level: 1,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 bonus action",
     range: "60 feet",
     duration: "Instantaneous",
@@ -224,6 +291,7 @@ spells = [
     name: "Darkness",
     level: 2,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "60 feet",
     duration: "10 minutes",
@@ -237,6 +305,7 @@ spells = [
     name: "Web",
     level: 2,
     school: "Conjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Conjuration").id,
     casting_time: "1 action",
     range: "60 feet",
     duration: "1 hour",
@@ -250,6 +319,7 @@ spells = [
     name: "Teleport",
     level: 7,
     school: "Conjuration",
+    spell_school_id: SpellSchool.find_by!(name: "Conjuration").id,
     casting_time: "1 action",
     range: "10 feet",
     duration: "Instantaneous",
@@ -263,6 +333,7 @@ spells = [
     name: "Fire Bolt",
     level: 0,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "120 feet",
     duration: "Instantaneous",
@@ -276,6 +347,7 @@ spells = [
     name: "Eldritch Blast",
     level: 0,
     school: "Evocation",
+    spell_school_id: SpellSchool.find_by!(name: "Evocation").id,
     casting_time: "1 action",
     range: "120 feet",
     duration: "Instantaneous",
@@ -289,6 +361,7 @@ spells = [
     name: "Minor Illusion",
     level: 0,
     school: "Illusion",
+   spell_school_id: SpellSchool.find_by!(name: "Illusion").id,
     casting_time: "1 action",
     range: "30 feet",
     duration: "1 minute",
@@ -337,5 +410,5 @@ spellbook_entries = [
   }
 ]
 
-spellbook_entries.each { |entry| SpellbookEntry.create!(entry) }
-puts "#{SpellbookEntry.count} spellbook entries created!"
+spellbook_entries.each { |entry| SpellbookEntery.create!(entry) }
+puts "#{SpellbookEntery.count} spellbook entries created!"

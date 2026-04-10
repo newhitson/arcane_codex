@@ -4,6 +4,6 @@ class SpellSerializer < ActiveModel::Serializer
              :concentration, :classes, :components
     
   def school_name
-    object.school
+    object.spell_school&.name || object.school
   end
 end
