@@ -2,7 +2,6 @@ Spellbook.destroy_all
 Spell.destroy_all
 SpellSchool.destroy_all
 
-
 spell_schools = [
   {
     name: "Evocation",

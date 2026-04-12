@@ -32,6 +32,11 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 gem 'active_model_serializers'
+gem 'searchkick'
+gem 'elasticsearch', '~> 8.0'
+gem 'elasticsearch-model', '~> 8.0'
+gem 'elasticsearch-rails', '~> 8.0'
+gem 'awesome_print'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

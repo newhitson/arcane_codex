@@ -1,6 +1,24 @@
 class Spell < ApplicationRecord
     belongs_to :spell_school
     #Verbal (V - chanting), Somatic (S - gestures), and Material (M - physical objects)
+  searchkick word_start: [:name, :description],
+             searchable: [:name, :description]
+
+
+    def search_data
+        {
+            name: name,
+            description: description,
+            school: spell_school&.name || school,
+            level: level,
+            classes: classes,
+            components: components,
+            ritual: ritual,
+            concentration: concentration,
+            casting_time: casting_time 
+        }
+    end
+    
 
     validates :name, presence: true, uniqueness: true
     validates :level, presence: true,
