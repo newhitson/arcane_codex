@@ -5,20 +5,23 @@ module Api
         if params[:q].present?
           search_options = {
             where: build_filters,
-            oder: build_sort,
+            aggs: [:school, :level, :classes, :ritual, :concentration]
             page: params[:page],
             per_page: 20
           }
-          spells = Spell.search(params[:q], **search_options)
-        else
-          spells = Spell.includes(:spell_school)
-          spells = apply_filters(spells)
-          sort_col = %w[name level school].include?(params[:sort]) ? params[:sort] : 'name'
-          sort_dir = params[:direction] == 'desc' ? 'desc' : 'asc'
-          spells = spells.order("#{sort_col} #{sort_dir}")
-        end
+          @results = Spell.search(params[:q].presence || '*', **search_options)
 
-        render json: spells, each_serializer: SpellSerializer
+        render json: {
+          spells: ActiveModelSerializers::SerializableResource.new(
+            @results, each_serializer: SpellSerializer
+          ),
+          facets:{
+            schools: @results.aggs['school']['buckets'],
+            levels: @results.aggs['level']['buckets'],
+            classes: @results,aggs['classes']['buckets']
+          },
+          total: results.total_count
+        }
       end
 
       def show
@@ -29,14 +32,6 @@ module Api
       end
 
       private
-
-      def apply_filters(spells)
-          spells = spells.by_level(params[:level]) if params[:level]
-          spells = spells.by_school(params[:school]) if params[:school]
-          spells = spells.for_class(params[:char_class]) if params[:char_class]
-          spells = spells.rituals if params[:ritual] == 'true'
-          spells = spells.concentration if params[:concentration] == 'true'
-      end
 
       def build_filters
         filters = {}
