@@ -1,0 +1,83 @@
+<!-- test-vue.html — open directly in browser -->
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>{{ title }}</h1>
+
+    <input v-model="searchQuery" placeholder="Search...">
+    <p>You typed: {{ searchQuery }}</p>
+
+    <ul>
+      <li>
+          <spell-card
+            v-for="spell in filteredSpells"
+            :key="spell.name"
+            :spell="spell"
+            @select="selectSpell"
+          />
+      </li>
+    </ul>
+
+    <p v-if="filteredSpells.length === 0">No spells found</p>
+  </div>
+
+  <script>
+    Vue.component('spell-card', {
+    props: ['spell'],
+    template: `
+        <div class="spell-card">
+        <h3>{{ spell.name }}</h3>
+        <p>Level {{ spell.level }} {{ spell.school }}</p>
+        <button @click="$emit(\u0027select\u0027, spell)">
+            View Details
+        </button>
+        </div>
+    `
+    });
+
+  new Vue({
+    el: '#app',
+    data: {
+      title: 'Spell Compendium',
+      searchQuery: '',
+      spells: [
+        { name: 'Fireball', level: 3 },
+        { name: 'Magic Missile', level: 1 },
+        { name: 'Fire Bolt', level: 0 },
+      ]
+    },
+    computed: {
+      // Computed properties auto-update when dependencies change
+      filteredSpells() {
+        const q = this.searchQuery.toLowerCase();
+        return this.spells.filter(s =>
+          s.name.toLowerCase().includes(q)
+        );
+      }
+    },
+    methods: {
+      selectSpell(spell) {
+        this.selectedSpell = spell;
+      },
+   
+      async fetchSpells() {
+        try {
+          const response = await fetch('/api/v1/spells');
+          this.spells = await response.json();
+        } catch (error) {
+          this.errorMessage = 'Failed to load spells';
+        }
+      }
+    },
+
+    mounted() {
+      this.fetchSpells();
+    }
+  });
+  </script>
+</body>
+</html>
